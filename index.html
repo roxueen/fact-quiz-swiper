@@ -18,27 +18,96 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 0;
+            overflow: hidden;
         }
 
         .container {
             width: 100%;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
+            height: 100vh;
+            max-width: 100%;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        /* Desktop Layout */
+        @media (min-width: 768px) {
+            .container {
+                grid-template-columns: 350px 1fr;
+                grid-template-rows: 1fr;
+                max-width: none;
+                padding: 20px;
+                gap: 20px;
+            }
+
+            .header {
+                grid-column: 1;
+                grid-row: 1;
+                overflow-y: auto;
+            }
+
+            .main-content {
+                grid-column: 2;
+                grid-row: 1;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .card-container {
+                flex: 1;
+            }
+
+            .actions {
+                border-radius: 20px !important;
+                margin-top: 20px;
+            }
+        }
+
+        /* Mobile Layout */
+        @media (max-width: 767px) {
+            .container {
+                padding: 0;
+                gap: 0;
+            }
+
+            .header {
+                grid-row: 1;
+            }
+
+            .main-content {
+                grid-row: 2;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .card-container {
+                flex: 1;
+            }
+
+            .actions {
+                grid-row: 3;
+            }
         }
 
         .header {
             background: white;
             padding: 20px;
-            border-radius: 20px 20px 0 0;
+            border-radius: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        @media (max-width: 767px) {
+            .header {
+                border-radius: 0 0 20px 20px;
+            }
         }
 
         .mode-switcher {
             display: flex;
             gap: 10px;
-            margin-bottom: 15px;
         }
 
         .mode-btn {
@@ -57,10 +126,6 @@
         .mode-btn.active {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-        }
-
-        .upload-section {
-            margin-top: 15px;
         }
 
         .file-input-wrapper {
@@ -93,7 +158,6 @@
         .stats {
             display: flex;
             justify-content: space-around;
-            margin-top: 15px;
             padding: 10px;
             background: #f8f9fa;
             border-radius: 10px;
@@ -116,7 +180,6 @@
         }
 
         .download-btn {
-            margin-top: 15px;
             width: 100%;
             padding: 15px;
             background: #28a745;
@@ -139,29 +202,53 @@
         }
 
         .shortcuts-info {
-            margin-top: 10px;
             padding: 10px;
             background: #e7f3ff;
             border-radius: 10px;
-            font-size: 12px;
+            font-size: 11px;
             color: #0066cc;
             text-align: center;
+            line-height: 1.4;
         }
 
         .shortcuts-info strong {
             display: block;
             margin-bottom: 5px;
-            font-size: 13px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 767px) {
+            .shortcuts-info {
+                font-size: 10px;
+            }
+        }
+
+        .main-content {
+            position: relative;
         }
 
         .card-container {
             position: relative;
-            height: 600px;
             background: white;
             padding: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+        }
+
+        @media (max-width: 767px) {
+            .card-container {
+                border-radius: 0;
+                padding: 15px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .card-container {
+                border-radius: 20px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
         }
 
         .card {
@@ -183,6 +270,17 @@
             flex-direction: column;
         }
 
+        @media (max-width: 767px) {
+            .card {
+                padding: 20px;
+                padding-top: 50px;
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+            }
+        }
+
         .card:active {
             cursor: grabbing;
         }
@@ -193,6 +291,38 @@
 
         .card.swiping-right {
             border: 3px solid #00d47e;
+        }
+
+        /* Animation for approved cards */
+        .card.approved {
+            animation: approveAnimation 0.5s ease-out forwards;
+        }
+
+        @keyframes approveAnimation {
+            0% {
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(150%) rotate(20deg);
+                opacity: 0;
+            }
+        }
+
+        /* Animation for rejected cards */
+        .card.rejected {
+            animation: rejectAnimation 0.5s ease-out forwards;
+        }
+
+        @keyframes rejectAnimation {
+            0% {
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-150%) rotate(-20deg);
+                opacity: 0;
+            }
         }
 
         .card-content {
@@ -212,6 +342,12 @@
             font-weight: bold;
             margin-bottom: 10px;
             color: #333;
+        }
+
+        @media (max-width: 767px) {
+            .quiz-title {
+                font-size: 16px;
+            }
         }
 
         .quiz-meta {
@@ -239,9 +375,22 @@
             flex-shrink: 0;
         }
 
+        @media (max-width: 767px) {
+            .quiz-question {
+                font-size: 18px;
+                margin: 15px 0;
+            }
+        }
+
         .quiz-options {
             margin: 20px 0;
             flex-shrink: 0;
+        }
+
+        @media (max-width: 767px) {
+            .quiz-options {
+                margin: 15px 0;
+            }
         }
 
         .option {
@@ -250,6 +399,13 @@
             background: #f8f9fa;
             border-radius: 10px;
             font-size: 16px;
+        }
+
+        @media (max-width: 767px) {
+            .option {
+                font-size: 14px;
+                padding: 10px;
+            }
         }
 
         .option.correct {
@@ -267,6 +423,13 @@
             flex-shrink: 0;
         }
 
+        @media (max-width: 767px) {
+            .quiz-explanation {
+                font-size: 13px;
+                padding: 12px;
+            }
+        }
+
         .fact-content {
             display: flex;
             align-items: center;
@@ -277,6 +440,13 @@
             text-align: center;
             color: #333;
             padding: 20px;
+        }
+
+        @media (max-width: 767px) {
+            .fact-content {
+                font-size: 20px;
+                padding: 15px;
+            }
         }
 
         .edit-btn {
@@ -295,19 +465,35 @@
             z-index: 100;
         }
 
+        @media (max-width: 767px) {
+            .edit-btn {
+                top: 15px;
+                right: 15px;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
         .edit-btn:hover {
             background: #ffb300;
         }
 
         .edit-textarea {
             width: 100%;
-            min-height: 400px;
+            min-height: 300px;
             padding: 15px;
             border: 2px solid #667eea;
             border-radius: 10px;
             font-size: 16px;
             font-family: inherit;
             resize: vertical;
+        }
+
+        @media (max-width: 767px) {
+            .edit-textarea {
+                min-height: 200px;
+                font-size: 14px;
+            }
         }
 
         .edit-actions {
@@ -340,10 +526,16 @@
         .actions {
             background: white;
             padding: 20px;
-            border-radius: 0 0 20px 20px;
+            border-radius: 20px 20px 0 0;
             display: flex;
             justify-content: space-around;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 767px) {
+            .actions {
+                padding: 15px;
+            }
         }
 
         .action-btn {
@@ -360,8 +552,20 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
+        @media (max-width: 767px) {
+            .action-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+        }
+
         .action-btn:hover {
             transform: scale(1.1);
+        }
+
+        .action-btn:active {
+            transform: scale(0.95);
         }
 
         .reject-btn {
@@ -389,8 +593,20 @@
             margin-bottom: 20px;
         }
 
+        @media (max-width: 767px) {
+            .empty-state-icon {
+                font-size: 48px;
+            }
+        }
+
         .empty-state-text {
             font-size: 18px;
+        }
+
+        @media (max-width: 767px) {
+            .empty-state-text {
+                font-size: 16px;
+            }
         }
 
         .swipe-indicator {
@@ -405,9 +621,21 @@
             z-index: 50;
         }
 
+        @media (max-width: 767px) {
+            .swipe-indicator {
+                font-size: 60px;
+            }
+        }
+
         .swipe-indicator.left {
             left: 40px;
             color: #ff4458;
+        }
+
+        @media (max-width: 767px) {
+            .swipe-indicator.left {
+                left: 20px;
+            }
         }
 
         .swipe-indicator.right {
@@ -415,8 +643,77 @@
             color: #00d47e;
         }
 
+        @media (max-width: 767px) {
+            .swipe-indicator.right {
+                right: 20px;
+            }
+        }
+
         .swipe-indicator.visible {
             opacity: 1;
+        }
+
+        /* Big feedback overlay */
+        .feedback-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0;
+        }
+
+        @media (max-width: 767px) {
+            .feedback-overlay {
+                font-size: 80px;
+            }
+        }
+
+        .feedback-overlay.approved {
+            color: #00d47e;
+            animation: feedbackApprove 0.6s ease-out;
+        }
+
+        .feedback-overlay.rejected {
+            color: #ff4458;
+            animation: feedbackReject 0.6s ease-out;
+        }
+
+        @keyframes feedbackApprove {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-10deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) rotate(5deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes feedbackReject {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(10deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) rotate(-5deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1) rotate(0deg);
+            }
         }
     </style>
 </head>
@@ -462,18 +759,21 @@
             </button>
         </div>
 
-        <div class="card-container" id="cardContainer">
-            <div class="swipe-indicator left" id="leftIndicator">✕</div>
-            <div class="swipe-indicator right" id="rightIndicator">✓</div>
-            <div class="empty-state">
-                <div class="empty-state-icon">📚</div>
-                <div class="empty-state-text">Upload a file to get started</div>
+        <div class="main-content">
+            <div class="card-container" id="cardContainer">
+                <div class="swipe-indicator left" id="leftIndicator">✕</div>
+                <div class="swipe-indicator right" id="rightIndicator">✓</div>
+                <div class="feedback-overlay" id="feedbackOverlay"></div>
+                <div class="empty-state">
+                    <div class="empty-state-icon">📚</div>
+                    <div class="empty-state-text">Upload a file to get started</div>
+                </div>
             </div>
-        </div>
 
-        <div class="actions">
-            <button class="action-btn reject-btn" id="rejectBtn">✕</button>
-            <button class="action-btn approve-btn" id="approveBtn">✓</button>
+            <div class="actions">
+                <button class="action-btn reject-btn" id="rejectBtn">✕</button>
+                <button class="action-btn approve-btn" id="approveBtn">✓</button>
+            </div>
         </div>
     </div>
 
@@ -497,6 +797,7 @@
         const downloadBtn = document.getElementById('downloadBtn');
         const leftIndicator = document.getElementById('leftIndicator');
         const rightIndicator = document.getElementById('rightIndicator');
+        const feedbackOverlay = document.getElementById('feedbackOverlay');
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
@@ -671,6 +972,7 @@
 
             if (currentIndex >= items.length) {
                 cardContainer.innerHTML = `
+                    <div class="feedback-overlay" id="feedbackOverlay"></div>
                     <div class="empty-state">
                         <div class="empty-state-icon">🎉</div>
                         <div class="empty-state-text">All items reviewed!</div>
@@ -691,6 +993,12 @@
             rightInd.id = 'rightIndicator';
             rightInd.textContent = '✓';
             cardContainer.appendChild(rightInd);
+
+            // Re-add feedback overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'feedback-overlay';
+            overlay.id = 'feedbackOverlay';
+            cardContainer.appendChild(overlay);
 
             const item = items[currentIndex];
             const card = document.createElement('div');
@@ -810,16 +1118,44 @@
             }
         }
 
+        function showFeedback(type) {
+            const overlay = document.getElementById('feedbackOverlay');
+            overlay.textContent = type === 'approve' ? '✓' : '✕';
+            overlay.className = 'feedback-overlay ' + (type === 'approve' ? 'approved' : 'rejected');
+        }
+
         function approve() {
             if (currentIndex >= items.length || isEditing) return;
+            
+            const card = cardContainer.querySelector('.card');
+            if (card) {
+                card.classList.add('approved');
+                showFeedback('approve');
+            }
+            
             approved.push(items[currentIndex]);
-            nextCard();
+            
+            // Wait for animation to complete before showing next card
+            setTimeout(() => {
+                nextCard();
+            }, 500);
         }
 
         function reject() {
             if (currentIndex >= items.length || isEditing) return;
+            
+            const card = cardContainer.querySelector('.card');
+            if (card) {
+                card.classList.add('rejected');
+                showFeedback('reject');
+            }
+            
             rejected.push(items[currentIndex]);
-            nextCard();
+            
+            // Wait for animation to complete before showing next card
+            setTimeout(() => {
+                nextCard();
+            }, 500);
         }
 
         function nextCard() {
@@ -913,6 +1249,7 @@
             cardContainer.innerHTML = `
                 <div class="swipe-indicator left" id="leftIndicator">✕</div>
                 <div class="swipe-indicator right" id="rightIndicator">✓</div>
+                <div class="feedback-overlay" id="feedbackOverlay"></div>
                 <div class="empty-state">
                     <div class="empty-state-icon">📚</div>
                     <div class="empty-state-text">Upload a file to get started</div>
