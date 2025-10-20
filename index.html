@@ -1,0 +1,780 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Fact &amp; Quiz Swiper&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>* {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-sizing: border-box;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 500px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.header {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 20px 20px 0 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 2px 10px rgba(0,0,0,0.1);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.mode-switcher {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.mode-btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex: 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #f0f0f0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #666;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.mode-btn.active {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.upload-section {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.file-input-wrapper {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: inline-block;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.file-input-wrapper input[type=file] {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: -9999px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.file-input-label {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #667eea;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.file-input-label:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #5568d3;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.stats {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-around;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #f8f9fa;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.stat {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.stat-value {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 24px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #667eea;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.stat-label {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #666;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 5px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.card-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 500px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.card {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: calc(100% - 40px);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: calc(100% - 40px);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 10px 40px rgba(0,0,0,0.1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: grab;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>user-select: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: transform 0.3s, box-shadow 0.3s;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow-y: auto;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.card:active {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: grabbing;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.card.swiping-left {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 3px solid #ff4458;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.card.swiping-right {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 3px solid #00d47e;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.card-content {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.quiz-header {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.quiz-title {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #333;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.quiz-meta {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.meta-item {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: inline-block;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 5px 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #f0f0f0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #666;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.quiz-question {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 20px 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.6;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #333;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.quiz-options {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 20px 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.option {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 8px 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #f8f9fa;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.option.correct {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #d4edda;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.quiz-explanation {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #fff3cd;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.6;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.fact-content {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 24px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.8;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #333;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.edit-btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>top: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>right: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 8px 16px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #ffc107;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.edit-btn:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #ffb300;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.edit-textarea {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-height: 200px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 2px solid #667eea;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: inherit;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>resize: vertical;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.edit-actions {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.edit-actions button {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex: 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.save-btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #00d47e;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.cancel-btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #f0f0f0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #666;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.actions {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 0 0 20px 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-around;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 -2px 10px rgba(0,0,0,0.1);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 60px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 60px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 28px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 12px rgba(0,0,0,0.15);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-btn:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: scale(1.1);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.reject-btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #ff4458;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.approve-btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #00d47e;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.download-btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #28a745;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.download-btn:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #218838;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.download-btn:disabled {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #ccc;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: not-allowed;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.empty-state {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #999;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.empty-state-icon {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 64px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.empty-state-text {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.swipe-indicator {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>top: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 80px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: opacity 0.2s;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>pointer-events: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.swipe-indicator.left {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #ff4458;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.swipe-indicator.right {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>right: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #00d47e;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.swipe-indicator.visible {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 1;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="mode-switcher"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="mode-btn active" data-mode="facts"&gt;Facts&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="mode-btn" data-mode="quizzes"&gt;Quizzes&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="upload-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="file-input-wrapper"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="file" id="fileInput" accept=".txt"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label for="fileInput" class="file-input-label"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>📁 Upload File</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="stats"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="stat"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="stat-value" id="approvedCount"&gt;0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="stat-label"&gt;Approved&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="stat"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="stat-value" id="rejectedCount"&gt;0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="stat-label"&gt;Rejected&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="stat"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="stat-value" id="remainingCount"&gt;0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="stat-label"&gt;Remaining&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="download-btn" id="downloadBtn" disabled&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>⬇️ Download Approved Items</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-container" id="cardContainer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="swipe-indicator left" id="leftIndicator"&gt;✕&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="swipe-indicator right" id="rightIndicator"&gt;✓&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="empty-state"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="empty-state-icon"&gt;📚&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="empty-state-text"&gt;Upload a file to get started&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="actions"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="action-btn reject-btn" id="rejectBtn"&gt;✕&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="action-btn approve-btn" id="approveBtn"&gt;✓&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentMode = 'facts';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let items = [];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentIndex = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let approved = [];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let rejected = [];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let startX = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentX = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let isDragging = false;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let isEditing = false;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const modeButtons = document.querySelectorAll('.mode-btn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const fileInput = document.getElementById('fileInput');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const cardContainer = document.getElementById('cardContainer');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const approveBtn = document.getElementById('approveBtn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const rejectBtn = document.getElementById('rejectBtn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const downloadBtn = document.getElementById('downloadBtn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const leftIndicator = document.getElementById('leftIndicator');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const rightIndicator = document.getElementById('rightIndicator');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Mode switching</p>
+<p class="p1"><span class="Apple-converted-space">        </span>modeButtons.forEach(btn =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>btn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>modeButtons.forEach(b =&gt; b.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>btn.classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>currentMode = btn.dataset.mode;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>resetApp();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// File upload</p>
+<p class="p1"><span class="Apple-converted-space">        </span>fileInput.addEventListener('change', (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const file = e.target.files[0];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (file) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const reader = new FileReader();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reader.onload = (event) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const content = event.target.result;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>parseFile(content);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reader.readAsText(file);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function parseFile(content) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>items = [];</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentMode === 'facts') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const facts = content.split('---').filter(f =&gt; f.trim());</p>
+<p class="p1"><span class="Apple-converted-space">                </span>items = facts.map(fact =&gt; ({</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>type: 'fact',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>content: fact.trim()</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const quizzes = content.split('---\n\n').filter(q =&gt; q.trim());</p>
+<p class="p1"><span class="Apple-converted-space">                </span>quizzes.forEach(quiz =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const lines = quiz.split('\n').filter(l =&gt; l.trim());</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (lines.length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const quizObj = {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>type: 'quiz',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>raw: quiz.trim(),</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>title: '',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>quizType: '',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>difficulty: '',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>explanation: '',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>question: '',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>options: []</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>let inMeta = false;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>let inOptions = false;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>for (let line of lines) {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>if (line.startsWith('### Quiz:')) {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>quizObj.title = line.replace('### Quiz:', '').trim();</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>inMeta = true;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>} else if (inMeta &amp;&amp; line.startsWith('- type:')) {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>quizObj.quizType = line.replace('- type:', '').trim();</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>} else if (inMeta &amp;&amp; line.startsWith('- difficulty:')) {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>quizObj.difficulty = line.replace('- difficulty:', '').trim();</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>} else if (inMeta &amp;&amp; line.startsWith('- explanation:')) {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>quizObj.explanation = line.replace('- explanation:', '').trim();</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>inMeta = false;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>} else if (line.startsWith('- ') &amp;&amp; !inMeta) {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>inOptions = true;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>quizObj.options.push(line);</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>} else if (!inMeta &amp;&amp; !inOptions &amp;&amp; line.trim() &amp;&amp; !line.startsWith('###')) {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>quizObj.question = line.trim();</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>items.push(quizObj);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentIndex = 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>approved = [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>rejected = [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>updateStats();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderCard();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderCard() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const existingCard = cardContainer.querySelector('.card');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (existingCard) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>existingCard.remove();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentIndex &gt;= items.length) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>cardContainer.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="empty-state"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="empty-state-icon"&gt;🎉&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="empty-state-text"&gt;All items reviewed!&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const item = items[currentIndex];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const card = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>card.className = 'card';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (item.type === 'fact') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>card.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button class="edit-btn" onclick="editItem()"&gt;✏️ Edit&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="card-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="fact-content"&gt;${item.content}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>card.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button class="edit-btn" onclick="editItem()"&gt;✏️ Edit&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="card-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="quiz-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="quiz-title"&gt;${item.title}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="quiz-meta"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;span class="meta-item"&gt;📝 ${item.quizType}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;span class="meta-item"&gt;⭐ ${item.difficulty}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="quiz-question"&gt;${item.question}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="quiz-options"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>${item.options.map(opt =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>const isCorrect = opt.toLowerCase().includes('correct');</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>return `&lt;div class="option ${isCorrect ? 'correct' : ''}"&gt;${opt.replace('- ', '')}&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>}).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="quiz-explanation"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;strong&gt;Explanation:&lt;/strong&gt; ${item.explanation}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>cardContainer.appendChild(card);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>addSwipeListeners(card);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function addSwipeListeners(card) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>card.addEventListener('mousedown', startDrag);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>card.addEventListener('touchstart', startDrag);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.addEventListener('mousemove', drag);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.addEventListener('touchmove', drag);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.addEventListener('mouseup', endDrag);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.addEventListener('touchend', endDrag);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function startDrag(e) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (isEditing) return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>isDragging = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentX = startX;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function drag(e) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!isDragging || isEditing) return;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const diff = currentX - startX;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const card = cardContainer.querySelector('.card');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (card) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>card.style.transform = `translateX(${diff}px) rotate(${diff * 0.05}deg)`;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (diff &lt; -50) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>card.classList.add('swiping-left');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>card.classList.remove('swiping-right');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>leftIndicator.classList.add('visible');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>rightIndicator.classList.remove('visible');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else if (diff &gt; 50) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>card.classList.add('swiping-right');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>card.classList.remove('swiping-left');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>rightIndicator.classList.add('visible');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>leftIndicator.classList.remove('visible');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>card.classList.remove('swiping-left', 'swiping-right');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>leftIndicator.classList.remove('visible');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>rightIndicator.classList.remove('visible');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function endDrag() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!isDragging || isEditing) return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>isDragging = false;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const diff = currentX - startX;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const card = cardContainer.querySelector('.card');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>leftIndicator.classList.remove('visible');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>rightIndicator.classList.remove('visible');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (Math.abs(diff) &gt; 100) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (diff &lt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>reject();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>approve();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (card) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>card.style.transform = '';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>card.classList.remove('swiping-left', 'swiping-right');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function approve() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>approved.push(items[currentIndex]);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>nextCard();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function reject() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>rejected.push(items[currentIndex]);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>nextCard();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function nextCard() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentIndex++;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>updateStats();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderCard();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function updateStats() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('approvedCount').textContent = approved.length;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('rejectedCount').textContent = rejected.length;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('remainingCount').textContent = Math.max(0, items.length - currentIndex);</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>downloadBtn.disabled = approved.length === 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function editItem() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>isEditing = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const card = cardContainer.querySelector('.card');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const item = items[currentIndex];</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const currentContent = item.type === 'fact' ? item.content : item.raw;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>card.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="card-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;textarea class="edit-textarea" id="editTextarea"&gt;${currentContent}&lt;/textarea&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="edit-actions"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button class="save-btn" onclick="saveEdit()"&gt;Save&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button class="cancel-btn" onclick="cancelEdit()"&gt;Cancel&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function saveEdit() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const textarea = document.getElementById('editTextarea');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const newContent = textarea.value.trim();</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (items[currentIndex].type === 'fact') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>items[currentIndex].content = newContent;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>items[currentIndex].raw = newContent;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Re-parse the quiz</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const lines = newContent.split('\n').filter(l =&gt; l.trim());</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Update quiz fields (simplified)</p>
+<p class="p1"><span class="Apple-converted-space">                </span>items[currentIndex].title = lines.find(l =&gt; l.startsWith('### Quiz:'))?.replace('### Quiz:', '').trim() || '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>isEditing = false;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderCard();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function cancelEdit() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>isEditing = false;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderCard();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>approveBtn.addEventListener('click', approve);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>rejectBtn.addEventListener('click', reject);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>downloadBtn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let content = '';</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentMode === 'facts') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>content = approved.map(item =&gt; item.content).join('\n---\n---\n');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>content = approved.map(item =&gt; item.raw).join('\n---\n\n');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const blob = new Blob([content], { type: 'text/plain' });</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const url = URL.createObjectURL(blob);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const a = document.createElement('a');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>a.href = url;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>a.download = `approved-${currentMode}-${Date.now()}.txt`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>a.click();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>URL.revokeObjectURL(url);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function resetApp() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>items = [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentIndex = 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>approved = [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>rejected = [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>updateStats();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cardContainer.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="empty-state"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="empty-state-icon"&gt;📚&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="empty-state-text"&gt;Upload a file to get started&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>fileInput.value = '';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
