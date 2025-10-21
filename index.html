@@ -201,6 +201,29 @@
             cursor: not-allowed;
         }
 
+        .undo-btn {
+            background: #ff9800;
+            margin-bottom: 10px;
+        }
+
+        .undo-btn:hover:not(:disabled) {
+            background: #f57c00;
+        }
+
+        .undo-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .add-btn {
+            background: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .add-btn:hover {
+            background: #0056b3;
+        }
+
         .shortcuts-info {
             padding: 10px;
             background: #e7f3ff;
@@ -528,6 +551,95 @@
             color: #666;
         }
 
+        .add-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .option-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .option-input-group input[type="text"] {
+            flex: 1;
+        }
+
+        .option-input-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .add-option-btn {
+            padding: 8px 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .add-option-btn:hover {
+            background: #5568d3;
+        }
+
+        .remove-option-btn {
+            padding: 8px 12px;
+            background: #ff4458;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .remove-option-btn:hover {
+            background: #e03347;
+        }
+
         .actions {
             background: white;
             padding: 20px;
@@ -755,8 +867,16 @@
 
             <div class="shortcuts-info">
                 <strong>⌨️ Keyboard Shortcuts:</strong>
-                Arrow Right/Space/Enter = Approve  •  Arrow Left/Backspace = Reject  •  E = Edit  •  Esc = Cancel
+                Arrow Right/Space/Enter = Approve  •  Arrow Left/Backspace = Reject  •  E = Edit  •  U = Undo  •  Esc = Cancel
             </div>
+
+            <button class="download-btn undo-btn" id="undoBtn" disabled>
+                ↶ Undo Last Action
+            </button>
+
+            <button class="download-btn add-btn" id="addBtn">
+                ➕ Add New Item
+            </button>
 
             <button class="download-btn" id="downloadBtn" disabled>
                 ⬇️ Download Approved Items
@@ -787,6 +907,7 @@
         let currentIndex = 0;
         let approved = [];
         let rejected = [];
+        let lastAction = null; // Track last action for undo
         let startX = 0;
         let currentX = 0;
         let isDragging = false;
@@ -798,6 +919,8 @@
         const cardContainer = document.getElementById('cardContainer');
         const approveBtn = document.getElementById('approveBtn');
         const rejectBtn = document.getElementById('rejectBtn');
+        const undoBtn = document.getElementById('undoBtn');
+        const addBtn = document.getElementById('addBtn');
         const downloadBtn = document.getElementById('downloadBtn');
         const leftIndicator = document.getElementById('leftIndicator');
         const rightIndicator = document.getElementById('rightIndicator');
@@ -828,6 +951,12 @@
                 case 'E':
                     if (currentIndex < items.length && !isEditing) {
                         editItem();
+                    }
+                    break;
+                case 'u':
+                case 'U':
+                    if (!isEditing && lastAction) {
+                        undo();
                     }
                     break;
                 case 'Escape':
@@ -1138,6 +1267,11 @@
             }
             
             approved.push(items[currentIndex]);
+            lastAction = {
+                type: 'approve',
+                item: items[currentIndex],
+                index: currentIndex
+            };
             
             setTimeout(() => {
                 nextCard();
@@ -1154,10 +1288,39 @@
             }
             
             rejected.push(items[currentIndex]);
+            lastAction = {
+                type: 'reject',
+                item: items[currentIndex],
+                index: currentIndex
+            };
             
             setTimeout(() => {
                 nextCard();
             }, 500);
+        }
+
+        function undo() {
+            if (!lastAction) return;
+            
+            // Remove from approved or rejected array
+            if (lastAction.type === 'approve') {
+                const index = approved.findIndex(item => item === lastAction.item);
+                if (index > -1) {
+                    approved.splice(index, 1);
+                }
+            } else if (lastAction.type === 'reject') {
+                const index = rejected.findIndex(item => item === lastAction.item);
+                if (index > -1) {
+                    rejected.splice(index, 1);
+                }
+            }
+            
+            // Go back to the previous item
+            currentIndex = lastAction.index;
+            lastAction = null;
+            
+            updateStats();
+            renderCard();
         }
 
         function nextCard() {
@@ -1172,6 +1335,7 @@
             document.getElementById('remainingCount').textContent = Math.max(0, items.length - currentIndex);
             
             downloadBtn.disabled = approved.length === 0;
+            undoBtn.disabled = !lastAction;
         }
 
         function editItem() {
@@ -1215,8 +1379,387 @@
             renderCard();
         }
 
+        function showAddForm() {
+            isEditing = true;
+            const card = cardContainer.querySelector('.card');
+            
+            if (currentMode === 'facts') {
+                if (card) {
+                    card.innerHTML = `
+                        <div class="card-content">
+                            <h3 style="margin-bottom: 20px; color: #667eea;">Add New Fact</h3>
+                            <div class="add-form">
+                                <div class="form-group">
+                                    <label for="factContent">Fact Content:</label>
+                                    <textarea id="factContent" placeholder="Enter your fact here..."></textarea>
+                                </div>
+                                <div class="edit-actions">
+                                    <button class="save-btn" onclick="saveNewItem()">Add Fact</button>
+                                    <button class="cancel-btn" onclick="cancelAdd()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Create new card for add form
+                    createAddCard('fact');
+                }
+            } else {
+                if (card) {
+                    card.innerHTML = `
+                        <div class="card-content">
+                            <h3 style="margin-bottom: 20px; color: #667eea;">Add New Quiz</h3>
+                            <div class="add-form">
+                                <div class="form-group">
+                                    <label for="quizFact">Fact (Quiz Title):</label>
+                                    <input type="text" id="quizFact" placeholder="e.g., Alexander Hamilton was born out of wedlock.">
+                                </div>
+                                <div class="form-group">
+                                    <label for="quizType">Type:</label>
+                                    <select id="quizType" onchange="handleQuizTypeChange()">
+                                        <option value="true-false">true-false</option>
+                                        <option value="binary-choice">binary-choice</option>
+                                        <option value="multiple-choice">multiple-choice</option>
+                                        <option value="timeline">timeline</option>
+                                        <option value="character-picker">character-picker</option>
+                                        <option value="close-the-gap">close-the-gap</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quizDifficulty">Difficulty:</label>
+                                    <select id="quizDifficulty">
+                                        <option value="easy">easy</option>
+                                        <option value="medium">medium</option>
+                                        <option value="hard">hard</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quizExplanation">Explanation:</label>
+                                    <textarea id="quizExplanation" placeholder="Explain why this is important..."></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quizQuestion">Question:</label>
+                                    <textarea id="quizQuestion" placeholder="Enter the question..."></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Options:</label>
+                                    <div id="optionsContainer">
+                                        <div class="option-input-group">
+                                            <input type="text" placeholder="Option 1" class="option-text">
+                                            <label style="display: flex; align-items: center; gap: 5px;">
+                                                <input type="checkbox" class="option-correct">
+                                                <span style="font-size: 12px;">Correct</span>
+                                            </label>
+                                        </div>
+                                        <div class="option-input-group">
+                                            <input type="text" placeholder="Option 2" class="option-text">
+                                            <label style="display: flex; align-items: center; gap: 5px;">
+                                                <input type="checkbox" class="option-correct">
+                                                <span style="font-size: 12px;">Correct</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <button class="add-option-btn" id="addOptionBtn" onclick="addOptionField()" style="margin-top: 10px;">+ Add Option</button>
+                                </div>
+                                <div class="edit-actions">
+                                    <button class="save-btn" onclick="saveNewItem()">Add Quiz</button>
+                                    <button class="cancel-btn" onclick="cancelAdd()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    createAddCard('quiz');
+                }
+            }
+        }
+
+        function createAddCard(type) {
+            const existingCard = cardContainer.querySelector('.card');
+            if (existingCard) {
+                existingCard.remove();
+            }
+
+            const card = document.createElement('div');
+            card.className = 'card';
+            
+            if (type === 'fact') {
+                card.innerHTML = `
+                    <div class="card-content">
+                        <h3 style="margin-bottom: 20px; color: #667eea;">Add New Fact</h3>
+                        <div class="add-form">
+                            <div class="form-group">
+                                <label for="factContent">Fact Content:</label>
+                                <textarea id="factContent" placeholder="Enter your fact here..."></textarea>
+                            </div>
+                            <div class="edit-actions">
+                                <button class="save-btn" onclick="saveNewItem()">Add Fact</button>
+                                <button class="cancel-btn" onclick="cancelAdd()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                card.innerHTML = `
+                    <div class="card-content">
+                        <h3 style="margin-bottom: 20px; color: #667eea;">Add New Quiz</h3>
+                        <div class="add-form">
+                            <div class="form-group">
+                                <label for="quizFact">Fact (Quiz Title):</label>
+                                <input type="text" id="quizFact" placeholder="e.g., Alexander Hamilton was born out of wedlock.">
+                            </div>
+                            <div class="form-group">
+                                <label for="quizType">Type:</label>
+                                <select id="quizType" onchange="handleQuizTypeChange()">
+                                    <option value="true-false">true-false</option>
+                                    <option value="binary-choice">binary-choice</option>
+                                    <option value="multiple-choice">multiple-choice</option>
+                                    <option value="timeline">timeline</option>
+                                    <option value="character-picker">character-picker</option>
+                                    <option value="close-the-gap">close-the-gap</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="quizDifficulty">Difficulty:</label>
+                                <select id="quizDifficulty">
+                                    <option value="easy">easy</option>
+                                    <option value="medium">medium</option>
+                                    <option value="hard">hard</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="quizExplanation">Explanation:</label>
+                                <textarea id="quizExplanation" placeholder="Explain why this is important..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="quizQuestion">Question:</label>
+                                <textarea id="quizQuestion" placeholder="Enter the question..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Options:</label>
+                                <div id="optionsContainer">
+                                    <div class="option-input-group">
+                                        <input type="text" placeholder="Option 1" class="option-text">
+                                        <label style="display: flex; align-items: center; gap: 5px;">
+                                            <input type="checkbox" class="option-correct">
+                                            <span style="font-size: 12px;">Correct</span>
+                                        </label>
+                                    </div>
+                                    <div class="option-input-group">
+                                        <input type="text" placeholder="Option 2" class="option-text">
+                                        <label style="display: flex; align-items: center; gap: 5px;">
+                                            <input type="checkbox" class="option-correct">
+                                            <span style="font-size: 12px;">Correct</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <button class="add-option-btn" id="addOptionBtn" onclick="addOptionField()" style="margin-top: 10px;">+ Add Option</button>
+                            </div>
+                            <div class="edit-actions">
+                                <button class="save-btn" onclick="saveNewItem()">Add Quiz</button>
+                                <button class="cancel-btn" onclick="cancelAdd()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            cardContainer.appendChild(card);
+        }
+
+        function addOptionField() {
+            const container = document.getElementById('optionsContainer');
+            const quizType = document.getElementById('quizType').value;
+            
+            // Don't allow adding options for fixed-option types
+            if (quizType === 'timeline' || quizType === 'character-picker' || quizType === 'close-the-gap') {
+                alert(`This quiz type requires exactly 4 options.`);
+                return;
+            }
+            
+            const optionCount = container.children.length + 1;
+            
+            const optionGroup = document.createElement('div');
+            optionGroup.className = 'option-input-group';
+            optionGroup.style.marginTop = '10px';
+            optionGroup.innerHTML = `
+                <input type="text" placeholder="Option ${optionCount}" class="option-text">
+                <label style="display: flex; align-items: center; gap: 5px;">
+                    <input type="checkbox" class="option-correct">
+                    <span style="font-size: 12px;">Correct</span>
+                </label>
+                <button class="remove-option-btn" onclick="removeOptionField(this)">✕</button>
+            `;
+            
+            container.appendChild(optionGroup);
+        }
+
+        function removeOptionField(btn) {
+            const container = document.getElementById('optionsContainer');
+            const quizType = document.getElementById('quizType').value;
+            
+            // Different minimum options based on quiz type
+            let minOptions = 2;
+            if (quizType === 'timeline' || quizType === 'character-picker' || quizType === 'close-the-gap') {
+                minOptions = 4;
+            }
+            
+            if (container.children.length > minOptions) {
+                btn.parentElement.remove();
+            } else {
+                alert(`This quiz type requires at least ${minOptions} options.`);
+            }
+        }
+
+        function handleQuizTypeChange() {
+            const quizType = document.getElementById('quizType').value;
+            const container = document.getElementById('optionsContainer');
+            const addOptionBtn = document.getElementById('addOptionBtn');
+            
+            // For timeline, character-picker, and close-the-gap: exactly 4 options
+            if (quizType === 'timeline' || quizType === 'character-picker' || quizType === 'close-the-gap') {
+                // Clear existing options
+                container.innerHTML = '';
+                
+                // Add exactly 4 options
+                for (let i = 1; i <= 4; i++) {
+                    const optionGroup = document.createElement('div');
+                    optionGroup.className = 'option-input-group';
+                    if (i > 1) optionGroup.style.marginTop = '10px';
+                    
+                    optionGroup.innerHTML = `
+                        <input type="text" placeholder="Option ${i}" class="option-text">
+                        <label style="display: flex; align-items: center; gap: 5px;">
+                            <input type="checkbox" class="option-correct">
+                            <span style="font-size: 12px;">Correct</span>
+                        </label>
+                    `;
+                    
+                    container.appendChild(optionGroup);
+                }
+                
+                // Hide the "Add Option" button for these types
+                addOptionBtn.style.display = 'none';
+                
+            } else {
+                // For other types, show the add button and ensure minimum 2 options
+                addOptionBtn.style.display = 'block';
+                
+                // If less than 2 options, reset to 2
+                if (container.children.length < 2) {
+                    container.innerHTML = '';
+                    for (let i = 1; i <= 2; i++) {
+                        const optionGroup = document.createElement('div');
+                        optionGroup.className = 'option-input-group';
+                        if (i > 1) optionGroup.style.marginTop = '10px';
+                        
+                        optionGroup.innerHTML = `
+                            <input type="text" placeholder="Option ${i}" class="option-text">
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" class="option-correct">
+                                <span style="font-size: 12px;">Correct</span>
+                            </label>
+                        `;
+                        
+                        container.appendChild(optionGroup);
+                    }
+                }
+            }
+        }
+
+        function saveNewItem() {
+            if (currentMode === 'facts') {
+                const content = document.getElementById('factContent').value.trim();
+                
+                if (!content) {
+                    alert('Please enter a fact!');
+                    return;
+                }
+                
+                const newFact = {
+                    type: 'fact',
+                    content: content
+                };
+                
+                items.push(newFact);
+                
+            } else {
+                const fact = document.getElementById('quizFact').value.trim();
+                const type = document.getElementById('quizType').value;
+                const difficulty = document.getElementById('quizDifficulty').value;
+                const explanation = document.getElementById('quizExplanation').value.trim();
+                const question = document.getElementById('quizQuestion').value.trim();
+                
+                const optionInputs = document.querySelectorAll('.option-text');
+                const correctCheckboxes = document.querySelectorAll('.option-correct');
+                
+                const options = [];
+                optionInputs.forEach((input, index) => {
+                    const optionText = input.value.trim();
+                    if (optionText) {
+                        const isCorrect = correctCheckboxes[index].checked;
+                        options.push(`- ${optionText}${isCorrect ? ' (Correct)' : ''}`);
+                    }
+                });
+                
+                // Validation based on quiz type
+                let requiredOptions = 2;
+                if (type === 'timeline' || type === 'character-picker' || type === 'close-the-gap') {
+                    requiredOptions = 4;
+                }
+                
+                if (!fact || !question || options.length < requiredOptions) {
+                    alert(`Please fill in all required fields and add at least ${requiredOptions} options!`);
+                    return;
+                }
+                
+                const hasCorrectAnswer = options.some(opt => opt.includes('(Correct)'));
+                if (!hasCorrectAnswer) {
+                    alert('Please mark at least one option as correct!');
+                    return;
+                }
+                
+                const rawQuiz = `### Quiz: ${fact}
+- type: ${type}
+- difficulty: ${difficulty}
+- explanation: ${explanation}
+---
+
+${question}
+
+${options.join('\n')}
+
+---`;
+                
+                const newQuiz = {
+                    type: 'quiz',
+                    raw: rawQuiz,
+                    title: fact,
+                    fact: fact,
+                    quizType: type,
+                    difficulty: difficulty,
+                    explanation: explanation,
+                    question: question,
+                    options: options
+                };
+                
+                items.push(newQuiz);
+            }
+            
+            isEditing = false;
+            updateStats();
+            renderCard();
+        }
+
+        function cancelAdd() {
+            isEditing = false;
+            renderCard();
+        }
+
         approveBtn.addEventListener('click', approve);
         rejectBtn.addEventListener('click', reject);
+        undoBtn.addEventListener('click', undo);
+        addBtn.addEventListener('click', showAddForm);
 
         downloadBtn.addEventListener('click', () => {
             let content = '';
@@ -1245,6 +1788,7 @@
             currentIndex = 0;
             approved = [];
             rejected = [];
+            lastAction = null;
             updateStats();
             cardContainer.innerHTML = `
                 <div class="swipe-indicator left" id="leftIndicator">✕</div>
