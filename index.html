@@ -330,54 +330,43 @@
             min-height: 0;
         }
 
-        .quiz-header {
-            margin-bottom: 20px;
-            flex-shrink: 0;
-        }
-
-        .quiz-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        @media (max-width: 767px) {
-            .quiz-title {
-                font-size: 16px;
-            }
-        }
-
-        .quiz-meta {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-        }
-
-        .meta-item {
-            display: inline-block;
-            padding: 5px 12px;
-            background: #f0f0f0;
-            border-radius: 15px;
-            font-size: 12px;
-            color: #666;
-        }
-
         .quiz-question {
             font-size: 20px;
-            margin: 20px 0;
-            line-height: 1.6;
+            margin-bottom: 20px;
+            line-height: 1.8;
             color: #333;
-            font-weight: 600;
             flex-shrink: 0;
         }
 
         @media (max-width: 767px) {
             .quiz-question {
                 font-size: 18px;
-                margin: 15px 0;
+                margin-bottom: 15px;
             }
+        }
+
+        .quiz-question-text {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .quiz-meta-inline {
+            font-size: 14px;
+            color: #666;
+            font-weight: normal;
+        }
+
+        @media (max-width: 767px) {
+            .quiz-meta-inline {
+                font-size: 13px;
+            }
+        }
+
+        .quiz-divider {
+            margin: 15px 0;
+            border: 0;
+            border-top: 2px solid #e0e0e0;
         }
 
         .quiz-options {
@@ -423,6 +412,24 @@
 
         @media (max-width: 767px) {
             .quiz-explanation {
+                font-size: 13px;
+                padding: 12px;
+            }
+        }
+
+        .quiz-fact {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.6;
+            flex-shrink: 0;
+            border-left: 4px solid #4caf50;
+        }
+
+        @media (max-width: 767px) {
+            .quiz-fact {
                 font-size: 13px;
                 padding: 12px;
             }
@@ -904,6 +911,7 @@
                 type: 'quiz',
                 raw: quizText.trim(),
                 title: '',
+                fact: '',
                 quizType: '',
                 difficulty: '',
                 explanation: '',
@@ -932,7 +940,9 @@
                 
                 if (currentSection === 'metadata') {
                     if (line.startsWith('### Quiz:')) {
-                        quizObj.title = line.replace('### Quiz:', '').trim();
+                        const factText = line.replace('### Quiz:', '').trim();
+                        quizObj.title = factText;
+                        quizObj.fact = factText;
                     } else if (line.startsWith('- type:')) {
                         quizObj.quizType = line.replace('- type:', '').trim();
                     } else if (line.startsWith('- difficulty:')) {
@@ -1007,14 +1017,11 @@
                 card.innerHTML = `
                     <button class="edit-btn" onclick="editItem()">✏️ Edit</button>
                     <div class="card-content">
-                        <div class="quiz-header">
-                            <div class="quiz-title">${escapeHtml(item.title)}</div>
-                            <div class="quiz-meta">
-                                <span class="meta-item">📝 ${escapeHtml(item.quizType)}</span>
-                                <span class="meta-item">⭐ ${escapeHtml(item.difficulty)}</span>
-                            </div>
+                        <div class="quiz-question">
+                            <span class="quiz-question-text">${escapeHtml(item.question)}</span>
+                            <span class="quiz-meta-inline">type: ${escapeHtml(item.quizType)}  •  difficulty: ${escapeHtml(item.difficulty)}</span>
                         </div>
-                        <div class="quiz-question">${escapeHtml(item.question)}</div>
+                        <hr class="quiz-divider">
                         <div class="quiz-options">
                             ${item.options.map(opt => {
                                 const isCorrect = opt.toLowerCase().includes('correct');
@@ -1024,6 +1031,11 @@
                         ${item.explanation ? `
                         <div class="quiz-explanation">
                             <strong>Explanation:</strong> ${escapeHtml(item.explanation)}
+                        </div>
+                        ` : ''}
+                        ${item.fact ? `
+                        <div class="quiz-fact">
+                            <strong>Fact:</strong> ${escapeHtml(item.fact)}
                         </div>
                         ` : ''}
                     </div>
