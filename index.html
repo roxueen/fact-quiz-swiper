@@ -293,7 +293,6 @@
             border: 3px solid #00d47e;
         }
 
-        /* Animation for approved cards */
         .card.approved {
             animation: approveAnimation 0.5s ease-out forwards;
         }
@@ -309,7 +308,6 @@
             }
         }
 
-        /* Animation for rejected cards */
         .card.rejected {
             animation: rejectAnimation 0.5s ease-out forwards;
         }
@@ -653,7 +651,6 @@
             opacity: 1;
         }
 
-        /* Big feedback overlay */
         .feedback-overlay {
             position: absolute;
             top: 0;
@@ -727,9 +724,9 @@
             
             <div class="upload-section">
                 <div class="file-input-wrapper">
-                    <input type="file" id="fileInput" accept=".txt">
+                    <input type="file" id="fileInput">
                     <label for="fileInput" class="file-input-label">
-                        📁 Upload File
+                        📁 Upload File (.txt, .md)
                     </label>
                 </div>
             </div>
@@ -801,10 +798,7 @@
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
-            // Don't trigger shortcuts when editing
             if (isEditing && e.key !== 'Escape') return;
-            
-            // Don't trigger if typing in file input
             if (document.activeElement === fileInput) return;
 
             switch(e.key) {
@@ -851,7 +845,6 @@
         fileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
-                // Store the original filename without extension
                 uploadedFileName = file.name.replace(/\.[^/.]+$/, "");
                 
                 const reader = new FileReader();
@@ -867,11 +860,22 @@
             items = [];
             
             if (currentMode === 'facts') {
-                // Split by triple dashes and filter empty
-                const facts = content.split(/\n?---\n?---\n?/).filter(f => f.trim());
+                // Parse markdown numbered list format
+                const lines = content.split('\n');
+                const facts = [];
+                
+                for (let line of lines) {
+                    line = line.trim();
+                    // Match numbered list items (e.g., "1. Fact text" or "10. Fact text")
+                    const match = line.match(/^\d+\.\s+(.+)$/);
+                    if (match) {
+                        facts.push(match[1].trim());
+                    }
+                }
+                
                 items = facts.map(fact => ({
                     type: 'fact',
-                    content: fact.trim()
+                    content: fact
                 }));
             } else {
                 // Split by looking for ### Quiz: at the start of a line
@@ -907,30 +911,25 @@
                 options: []
             };
 
-            // Split into lines
             const lines = quizText.split('\n');
-            let currentSection = 'metadata'; // metadata, question, options
+            let currentSection = 'metadata';
             let separatorCount = 0;
 
             for (let i = 0; i < lines.length; i++) {
                 const line = lines[i].trim();
                 
-                // Skip empty lines
                 if (!line) continue;
                 
-                // Track separators
                 if (line === '---') {
                     separatorCount++;
                     if (separatorCount === 1) {
                         currentSection = 'question';
                     } else if (separatorCount === 2) {
-                        // End of this quiz
                         break;
                     }
                     continue;
                 }
                 
-                // Parse metadata section
                 if (currentSection === 'metadata') {
                     if (line.startsWith('### Quiz:')) {
                         quizObj.title = line.replace('### Quiz:', '').trim();
@@ -942,19 +941,15 @@
                         quizObj.explanation = line.replace('- explanation:', '').trim();
                     }
                 }
-                // Parse question and options section
                 else if (currentSection === 'question') {
                     if (line.startsWith('- ')) {
-                        // This is an option
                         quizObj.options.push(line);
                     } else if (!quizObj.question) {
-                        // This is the question (first non-option line after first separator)
                         quizObj.question = line;
                     }
                 }
             }
 
-            // Only return if we have essential data
             return (quizObj.title && quizObj.question && quizObj.options.length > 0) ? quizObj : null;
         }
 
@@ -964,7 +959,6 @@
                 existingCard.remove();
             }
 
-            // Remove old swipe indicators if they exist
             const oldLeft = cardContainer.querySelector('.swipe-indicator.left');
             const oldRight = cardContainer.querySelector('.swipe-indicator.right');
             if (oldLeft) oldLeft.remove();
@@ -981,7 +975,6 @@
                 return;
             }
 
-            // Re-add swipe indicators
             const leftInd = document.createElement('div');
             leftInd.className = 'swipe-indicator left';
             leftInd.id = 'leftIndicator';
@@ -994,7 +987,6 @@
             rightInd.textContent = '✓';
             cardContainer.appendChild(rightInd);
 
-            // Re-add feedback overlay
             const overlay = document.createElement('div');
             overlay.className = 'feedback-overlay';
             overlay.id = 'feedbackOverlay';
@@ -1135,7 +1127,6 @@
             
             approved.push(items[currentIndex]);
             
-            // Wait for animation to complete before showing next card
             setTimeout(() => {
                 nextCard();
             }, 500);
@@ -1152,7 +1143,6 @@
             
             rejected.push(items[currentIndex]);
             
-            // Wait for animation to complete before showing next card
             setTimeout(() => {
                 nextCard();
             }, 500);
@@ -1198,7 +1188,6 @@
                 items[currentIndex].content = newContent;
             } else {
                 items[currentIndex].raw = newContent;
-                // Re-parse the quiz
                 const updatedQuiz = parseQuiz(newContent);
                 if (updatedQuiz) {
                     Object.assign(items[currentIndex], updatedQuiz);
@@ -1221,7 +1210,7 @@
             let content = '';
             
             if (currentMode === 'facts') {
-                content = approved.map(item => item.content).join('\n---\n---\n');
+                content = approved.map((item, index) => `${index + 1}. ${item.content}`).join('\n');
             } else {
                 content = approved.map(item => item.raw).join('\n\n---\n\n');
             }
@@ -1231,7 +1220,6 @@
             const a = document.createElement('a');
             a.href = url;
             
-            // Use original filename + " approved facts/quizzes"
             const baseFileName = uploadedFileName || 'download';
             const suffix = currentMode === 'facts' ? 'approved-facts' : 'approved-quizzes';
             a.download = `${baseFileName}-${suffix}.txt`;
